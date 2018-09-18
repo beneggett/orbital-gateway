@@ -34,9 +34,9 @@ module Orbital
         {
           'MIME-Version' => '1.1',
           'Content-Type' => "application/PTI#{API_VERSION.gsub(/\./, '')}",
-          'Content-transfer-encoding' => 'text',
-          'Request-number' => '1',
-          'Document-type' => 'Request',
+          'Content-Transfer-Encoding' => 'text',
+          'Request-Number' => '1',
+          'Document-Type' => 'Request',
           'Interface-Version' => 'Ruby|Orbital Gateway'
         }
       end
