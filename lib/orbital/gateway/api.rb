@@ -2,8 +2,11 @@ module Orbital
   module Gateway
     class Api
       URL_ENDPOINT = ENV.fetch("ORBITAL_GATEWAY_BASE_URL", "https://orbitalvar1.chasepaymentech.com/authorize")
-      API_VERSION = ENV.fetch("ORBITAL_GATEWAY_API_VERSION", "7.5")
-
+      API_VERSION = ENV.fetch("ORBITAL_GATEWAY_API_VERSION", "7.4")
+      ORBITAL_MERCHANT_ID = ENV.fetch("ORBITAL_MERCHANT_ID", "not-configured")
+      ORBITAL_CONNECTION_ID = ENV.fetch("ORBITAL_CONNECTION_ID", "not-configured")
+      ORBITAL_CONNECTION_PASSWORD = ENV.fetch("ORBITAL_CONNECTION_PASSWORD", "not-configured")
+      BIN = ENV.fetch("ORBITAL_BIN", "stratus")
       include HTTParty
 
       def initialize(options = {})
@@ -26,7 +29,7 @@ module Orbital
       private
 
       def modify_headers(size)
-        headers["Content-Length"] = size
+        # headers["Content-Length"] = size
         headers
       end
 
@@ -39,6 +42,14 @@ module Orbital
           'Document-Type' => 'Request',
           'Interface-Version' => 'Ruby|Orbital Gateway'
         }
+      end
+
+      def bin
+        available_bins = {
+          'stratus' => '000001',
+          'pns'     => '000002'
+        }
+        available_bins[BIN]
       end
 
       # Will need to add these in to the headers
@@ -58,6 +69,7 @@ module Orbital
         xml.tag! :Request do
           xml.tag! :NewOrder do
             add_xml_credentials(xml)
+            add_bin_merchant_and_terminal(xml)
           end
         end
       end
@@ -69,18 +81,57 @@ module Orbital
       end
 
       def add_xml_credentials(xml)
-        xml.tag! :OrbitalConnectionUsername, ENV.fetch("ORBITAL_CONNECTION_ID", "not-implemented")
-
-        xml.tag! :OrbitalConnectionPassword, ENV.fetch("ORBITAL_CONNECTION_PASSWORD", "not-implemented")
-
+        xml.tag! :OrbitalConnectionUsername, ORBITAL_CONNECTION_ID
+        xml.tag! :OrbitalConnectionPassword, ORBITAL_CONNECTION_PASSWORD
       end
 
-      def add_bin_merchant_and_terminal(xml, parameters)
-        xml.tag! :BIN, "bin"
-        xml.tag! :MerchantID, "@options[:merchant_id]"
-        xml.tag! :TerminalID, "parameters[:terminal_id] || '001'"
+      def add_bin_merchant_and_terminal(xml)
+        xml.tag! :BIN, bin
+        xml.tag! :MerchantID, ORBITAL_MERCHANT_ID
+        xml.tag! :TerminalID, '001'
       end
 
+      CURRENCY_CODES = {
+        'AUD' => '036',
+        'BRL' => '986',
+        'CAD' => '124',
+        'CLP' => '152',
+        'CZK' => '203',
+        'DKK' => '208',
+        'HKD' => '344',
+        'ICK' => '352',
+        'JPY' => '392',
+        'MXN' => '484',
+        'NZD' => '554',
+        'NOK' => '578',
+        'SGD' => '702',
+        'SEK' => '752',
+        'CHF' => '756',
+        'GBP' => '826',
+        'USD' => '840',
+        'EUR' => '978'
+      }
+
+      CURRENCY_EXPONENTS = {
+        'AUD' => '2',
+        'BRL' => '2',
+        'CAD' => '2',
+        'CLP' => '2',
+        'CZK' => '2',
+        'DKK' => '2',
+        'HKD' => '2',
+        'ICK' => '2',
+        'JPY' => '0',
+        'MXN' => '2',
+        'NZD' => '2',
+        'NOK' => '2',
+        'SGD' => '2',
+        'SEK' => '2',
+        'CHF' => '2',
+        'GBP' => '2',
+        'USD' => '2',
+        'EUR' => '2'
+      }
 
     end
   end

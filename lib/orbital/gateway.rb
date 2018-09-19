@@ -6,6 +6,8 @@ require "ostruct"
 
 require "orbital/gateway/api"
 require "orbital/gateway/version"
+require "orbital/gateway/api/customer"
+require "orbital/gateway/api/authorization"
 
 module Orbital
   module Gateway
