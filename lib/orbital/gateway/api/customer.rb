@@ -1,10 +1,34 @@
 module Orbital
   module Gateway
     class Api::Customer < Api
-      def add_bin_merchant_and_terminal(xml)
-        xml.tag! :CustomerBin, bin
-        xml.tag! :CustomerMerchantID, ::Orbital::Gateway::Api::ORBITAL_MERCHANT_ID
-        # xml.tag! :TerminalID, "parameters[:terminal_id] || '001'"
+      class << self
+        def create_profile(parameters)
+          gateway = new
+          xml_data = gateway.create_profile(parameters)
+          response = gateway.post(xml_data)
+          OrbitalResponse::ProfileResponse.new(response)
+        end
+
+        def update_profile(parameters)
+          gateway = new
+          xml_data = gateway.update_profile(parameters)
+          response = gateway.post(xml_data)
+          OrbitalResponse::ProfileResponse.new(response)
+        end
+
+        def delete_profile(parameters)
+          gateway = new
+          xml_data = gateway.delete_profile(parameters)
+          response = gateway.post(xml_data)
+          OrbitalResponse::ProfileResponse.new(response)
+        end
+
+        def retrieve_profile(parameters)
+          gateway = new
+          xml_data = gateway.retrieve_profile(parameters)
+          response = gateway.post(xml_data)
+          OrbitalResponse::ProfileResponse.new(response)
+        end
       end
 
       def xml_body(parameters)
@@ -16,6 +40,30 @@ module Orbital
             add_data(xml, parameters)
           end
         end
+      end
+
+      def create_profile(parameters)
+        xml_body(parameters.merge({customer_profile_action: :create}))
+      end
+
+      def update_profile(parameters)
+        xml_body(parameters.merge({customer_profile_action: :update}))
+      end
+
+      def delete_profile(parameters)
+        xml_body(parameters.merge({customer_profile_action: :delete}))
+      end
+
+      def retrieve_profile(parameters)
+        xml_body(parameters.merge({customer_profile_action: :retrieve}))
+      end
+
+      private
+
+      def add_bin_merchant_and_terminal(xml)
+        xml.tag! :CustomerBin, bin
+        xml.tag! :CustomerMerchantID, ::Orbital::Gateway::Api::ORBITAL_MERCHANT_ID
+        # xml.tag! :TerminalID, "parameters[:terminal_id] || '001'"
       end
 
       def add_data(xml, parameters)
@@ -30,11 +78,13 @@ module Orbital
         xml.tag! :CustomerPhone,                    parameters[:customer_phone]
         xml.tag! :CustomerCountryCode,              parameters[:customer_country_code]
         xml.tag! :CustomerProfileAction,            action(parameters[:customer_profile_action])
-        xml.tag! :CustomerProfileOrderOverrideInd,  'NO'
-        xml.tag! :CustomerProfileFromOrderInd,      'S'
+        xml.tag!(:CustomerProfileOrderOverrideInd,  'NO') unless parameters[:customer_profile_action] == :delete
+        if parameters[:customer_profile_action] == :create
+          xml.tag! :CustomerProfileFromOrderInd,      'S'
+        end
         xml.tag! :OrderDefaultDescription,          parameters[:order_default_description]
         xml.tag! :OrderDefaultAmount,               parameters[:order_default_amount]
-        xml.tag! :CustomerAccountType,              'CC'
+        xml.tag!(:CustomerAccountType,              'CC') unless parameters[:customer_profile_action] == :delete
         xml.tag! :Status,                           'A'
         xml.tag! :CCAccountNum,                     parameters[:credit_card_number]
         xml.tag! :CCExpireDate,                     parameters[:expiration_date]

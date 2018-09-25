@@ -20,17 +20,20 @@ module Orbital
       #   # handle_response(response, api_type)
       # end
 
-      def post(body)
-        response = self.class.post(URL_ENDPOINT, body: body, timeout: 30, headers: modify_headers(body.size.to_s))
+      def post(body, trace_number=nil)
+        response = self.class.post(URL_ENDPOINT, body: body, timeout: 30, headers: modify_headers(body.size.to_s, trace_number))
         # api_type = options[:type] || options[:customer_vault]
         # handle_response(response, api_type)
       end
 
       private
 
-      def modify_headers(size)
+      def modify_headers(size, trace_number=nil)
         # headers["Content-Length"] = size
-        headers
+        head = headers
+        head.merge!('Trace-Number' => trace_number,
+                       'Merchant-Id'  => ORBITAL_MERCHANT_ID) if trace_number
+        head
       end
 
       def headers
