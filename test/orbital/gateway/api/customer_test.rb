@@ -8,10 +8,11 @@ class Orbital::Gateway::Api::CustomerTest < Minitest::Test
     let(:gateway) { Orbital::Gateway::Api::Customer.new }
 
     it 'tests created profile amex 5.1' do
-      skip "TODO Failing.  Need to look into why"
-      amex_params.merge!({customer_profile_action: :create, order_default_amount: '0'})
-      body = gateway.xml_body(amex_params)
-      result = gateway.post(body)
+      # skip "TODO Failing.  Need to look into why"
+      result = Orbital::Gateway::Api::Customer.create_profile(amex_params)
+      # amex_params.merge!({customer_profile_action: :create, order_default_amount: '0'})
+      # body = gateway.xml_body(amex_params)
+      # result = gateway.post(body)
       binding.pry
     end
 
@@ -63,13 +64,13 @@ class Orbital::Gateway::Api::CustomerTest < Minitest::Test
     end
 
     it 'updates the amex profile' do
-      skip "TODO Failing.  Need to look into why"
+      # skip "TODO Failing.  Need to look into why"
       amex_params.merge!({order_default_amount: '0'})
       profile = Orbital::Gateway::Api::Customer.create_profile(amex_params.merge({order_default_amount: 0}))
       assert profile.success?
       updated_profile = Orbital::Gateway::Api::Customer.update_profile(amex_params.merge({order_default_amount: 0, customer_ref_num: profile.customer_ref_num}))
       binding.pry
-      assert_profile.success?
+      assert profile.success?
     end
 
     it 'updates the visa profile' do
@@ -142,9 +143,10 @@ class Orbital::Gateway::Api::CustomerTest < Minitest::Test
     end
 
     it 'retrieve the mastercard without suite' do
-      skip "successfully ran"
+      # skip "successfully ran"
       profile = Orbital::Gateway::Api::Customer.create_profile(second_master_card_params.merge({credit_card_number: '2521000000000006', order_default_amount: '0'}))
       inquery = Orbital::Gateway::Api::Customer.retrieve_profile(customer_ref_num: profile.customer_ref_num)
+      binding.pry
     end
   end
 end

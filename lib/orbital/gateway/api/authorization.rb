@@ -4,7 +4,22 @@ module Orbital
       class << self
         def void(parameters)
           gateway = new
-          response = gateway.void(parameters)
+          xml_data = gateway.void(parameters)
+          response = gateway.post(xml_data)
+          OrbitalResponse::AuthorizationResponse.new(response)
+        end
+
+        def auth_and_capture(parameters, retry_trace=nil)
+          gateway = new
+          xml_data = gateway.auth_and_capture(parameters)
+          response = gateway.post(xml_data, retry_trace || rand(9999999999999999).to_s)
+          OrbitalResponse::AuthorizationResponse.new(response)
+        end
+
+        def auth_only(parameters)
+          gateway = new
+          xml_data = gateway.auth_only(parameters)
+          response = gateway.post(xml_data)
           OrbitalResponse::AuthorizationResponse.new(response)
         end
       end
@@ -59,7 +74,6 @@ module Orbital
         xml.tag! :Request do
           xml.tag! :Reversal do
             add_xml_credentials(xml)
-            xml.tag! :IndustryType, 'EC'
             void_data(xml, parameters)
             xml.target!
           end
@@ -67,7 +81,7 @@ module Orbital
       end
 
       def add_data(xml, parameters)
-        # xml.tag! :CardBrand,                parameters[:card_brand]
+        xml.tag! :CardBrand,                parameters[:card_brand]
         xml.tag! :AccountNum,                 parameters[:account_number]
         xml.tag! :Exp,                        parameters[:expiration_date]
         xml.tag! :CurrencyCode,               CURRENCY_CODES.fetch(parameters[:currency_country], '840')
@@ -90,12 +104,17 @@ module Orbital
 
       def void_data(xml, parameters)
         xml.tag! :TxRefNum, parameters[:tx_ref_num]
-        xml.tag! :TxRefIdx, parameters[:transaction_index]
-        xml.tag! :AdjustedAmt, parameters[:amount] # setting adjusted amount to nil will void entire amount
+        xml.tag! :TxRefIdx, parameters[:tx_ref_idx]
+        xml.tag! :AdjustedAmt, parameters[:amount] if parameters[:amount]
         xml.tag! :OrderID, parameters[:order_id]
         add_bin_merchant_and_terminal(xml)
         xml.tag! :ReversalRetryNumber, parameters[:reversal_retry_number] if parameters[:reversal_retry_number]
         xml.tag! :OnlineReversalInd,   parameters[:online_reversal_ind]   if parameters[:online_reversal_ind]
+      end
+
+      def inquery_data(xml, parameters)
+        xml.tag! :OrderID, parameters[:order_id]
+        xml.tag! :InquiryRetryNumber, parameters[:inquiry_retry_number]
       end
 
       def add_cryptogram(xml, parameters)

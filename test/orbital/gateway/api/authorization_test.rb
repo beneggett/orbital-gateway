@@ -8,7 +8,7 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     let(:gateway) { Orbital::Gateway::Api::Authorization.new }
 
     it 'tests created profile amex 5.1' do
-      skip "TODO Failing.  Need to look into why"
+      # skip "TODO Failing.  Need to look into why"
       body = gateway.auth_only(amex_params.merge({amount: '1'}))
       result = gateway.post(body)
       binding.pry
@@ -36,7 +36,7 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     end
 
     it 'tests created profile first mastercard 5.1 A6' do
-      # skip "successfully ran"
+      skip "successfully ran"
       body = gateway.auth_only(first_master_card_params.merge({amount: '0'}))
       result = gateway.post(body)
       binding.pry
@@ -57,16 +57,16 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
 
     let(:gateway) { Orbital::Gateway::Api::Authorization.new }
 
-    it 'tests created profile amex 5.1' do
-      skip "TODO Failing.  Need to look into why"
+    it 'tests created profile amex 5.1 D1 a' do
+      # skip "TODO Failing.  Need to look into why"
       body = gateway.auth_and_capture(amex_params.merge({amount: '10000'}))
       result = gateway.post(body)
       binding.pry
     end
 
     it 'tests created profile discover 5.1 A3' do
-      skip "successfully ran"
-      body = gateway.auth_and_capture(discover_params.merge({amount: '10500'}))
+      # skip "successfully ran"
+      body = gateway.auth_and_capture(discover_params.merge({amount: '1000'}))
       result = gateway.post(body)
       binding.pry
     end
@@ -136,7 +136,7 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
   
     it 'tests created profile first mastercard 5.1 A6' do
       skip "successfully ran"
-      body = gateway.auth_and_capture(first_master_card_params.merge({amount: '10500'}))
+      body = gateway.auth_and_capture(first_master_card_params.merge({amount: '10000'}))
       result = gateway.post(body)
       binding.pry
     end
@@ -203,8 +203,22 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     end
 
     it 'tests auth with capture negative visa' do
-      skip "successfully ran"
+      # skip "successfully ran"
       body = gateway.auth_and_capture(visa_params.merge({amount: '99900'}))
+      result = gateway.post(body)
+      binding.pry
+    end
+
+    it 'tests auth with capture negative amex' do
+      # skip "successfully ran"
+      body = gateway.auth_and_capture(amex_params.merge({amount: '53000'}))
+      result = gateway.post(body)
+      binding.pry
+    end
+
+    it 'tests auth with capture failover amex' do
+      # skip "successfully ran"
+      body = gateway.auth_and_capture(amex_params.merge({amount: '10500'}))
       result = gateway.post(body)
       binding.pry
     end
@@ -250,11 +264,20 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
 
     it 'voids second mastercard' do
       order_id = SecureRandom.hex(8)
-      purchase = gateway.post(gateway.auth_and_capture(visa_params.merge({amount: '99900', order_id: order_id})))
-      tmp = second_master_card_params.merge({tx_ref_num: SecureRandom.hex(8), order_id: order_id})
+      purchase = Orbital::Gateway::Api::Authorization.auth_and_capture(visa_params.merge({amount: '10000', order_id: order_id}))
+      binding.pry
+      tmp = second_master_card_params.merge({tx_ref_num: purchase.tx_ref_num, order_id: order_id, tx_ref_idx: purchase.tx_ref_idx})
       result = Orbital::Gateway::Api::Authorization.void(tmp)
       binding.pry
     end
 
+    it 'voids amex' do
+      order_id = 'AMEXvoid51G1'
+      purchase = Orbital::Gateway::Api::Authorization.auth_and_capture(amex_params.merge({amount: '10000', order_id: order_id}))
+      binding.pry
+      tmp = second_master_card_params.merge({tx_ref_num: purchase.tx_ref_num, order_id: order_id, tx_ref_idx: purchase.tx_ref_idx})
+      result = Orbital::Gateway::Api::Authorization.void(tmp)
+      binding.pry
+    end
   end
 end
