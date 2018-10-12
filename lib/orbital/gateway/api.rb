@@ -31,7 +31,7 @@ module Orbital
       def modify_headers(size, trace_number=nil)
         # headers["Content-Length"] = size
         head = headers
-        head.merge!('Trace-Number' => trace_number,
+        head.merge!('Trace-Number' => trace_number.to_s,
                        'Merchant-Id'  => ORBITAL_MERCHANT_ID) if trace_number
         head
       end

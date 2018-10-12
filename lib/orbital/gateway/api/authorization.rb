@@ -12,7 +12,7 @@ module Orbital
         def auth_and_capture(parameters, retry_trace=nil)
           gateway = new
           xml_data = gateway.auth_and_capture(parameters)
-          response = gateway.post(xml_data, retry_trace || rand(9999999999999999).to_s)
+          response = gateway.post(xml_data, retry_trace || rand(9999999999999999))
           OrbitalResponse::AuthorizationResponse.new(response)
         end
 
