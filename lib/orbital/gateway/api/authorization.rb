@@ -82,7 +82,7 @@ module Orbital
 
       def add_data(xml, parameters)
         xml.tag! :CardBrand,                parameters[:card_brand]
-        xml.tag! :AccountNum,                 parameters[:account_number]
+        xml.tag! :AccountNum,                 parameters[:account_num]
         xml.tag! :Exp,                        parameters[:expiration_date]
         xml.tag! :CurrencyCode,               CURRENCY_CODES.fetch(parameters[:currency_country], '840')
         xml.tag! :CurrencyExponent,           CURRENCY_EXPONENTS.fetch(parameters[:currency_country], '2')
@@ -93,7 +93,7 @@ module Orbital
         xml.tag! :AVSstate,                   parameters[:avs_state]
         xml.tag! :AVSphoneNum,                parameters[:avs_phone]
         # xml.tag! :CustomerProfileFromOrderInd, parameters[:customer_profile_from_order_ind]
-        xml.tag! :CustomerRefNum,              parameters[:customer_ref_number]
+        xml.tag! :CustomerRefNum,              parameters[:customer_ref_num]
         xml.tag! :OrderID,            parameters[:order_id]
         xml.tag! :Amount,             parameters[:amount]
         xml.tag!(:PartialAuthInd,     parameters[:partial_auth_ind]) if parameters[:partial_auth_ind]

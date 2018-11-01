@@ -47,7 +47,7 @@ module CustomerCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:       '0419',
-      account_number:        '4112344112344113',
+      account_num:        '4112344112344113',
       card_brand:            'VI'
     }
   end

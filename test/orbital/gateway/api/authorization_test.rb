@@ -45,7 +45,7 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     it 'tests created profile first mastercard 5.1 A7' do
       skip "successfully ran"
       tmp = second_master_card_params.merge({amount: '0'})
-      tmp[:account_number] = '2221000000000009'
+      tmp[:account_num] = '2221000000000009'
       body = gateway.auth_only(tmp)
       result = gateway.post(body)
       binding.pry
@@ -73,35 +73,35 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
 
     it 'tests partial auth discover' do
       skip "successfully ran"
-      body = gateway.auth_and_capture(discover_params.merge({amount: '7500', partial_auth_ind: 'Y', account_number: '6011000994116667'}))
+      body = gateway.auth_and_capture(discover_params.merge({amount: '7500', partial_auth_ind: 'Y', account_num: '6011000994116667'}))
       result = gateway.post(body)
       binding.pry
     end
 
     it 'tests partial auth mastercard 26 3' do
       skip "successfully ran"
-      body = gateway.auth_and_capture(second_master_card_params.merge({amount: '8000', partial_auth_ind: 'Y', account_number: '5555555555555565'}))
+      body = gateway.auth_and_capture(second_master_card_params.merge({amount: '8000', partial_auth_ind: 'Y', account_num: '5555555555555565'}))
       result = gateway.post(body)
       binding.pry
     end
 
     it 'tests partial auth mastercard 26 4' do
       # skip "successfully ran"
-      body = gateway.auth_and_capture(second_master_card_params.merge({amount: '8500', partial_auth_ind: 'Y', account_number: '5555556666666663'}))
+      body = gateway.auth_and_capture(second_master_card_params.merge({amount: '8500', partial_auth_ind: 'Y', account_num: '5555556666666663'}))
       result = gateway.post(body)
       binding.pry
     end
 
     it 'tests partial auth visa 26 5' do
       skip "successfully ran"
-      body = gateway.auth_and_capture(visa_params.merge({amount: '9000', partial_auth_ind: 'Y', account_number: '4444445555555559'}))
+      body = gateway.auth_and_capture(visa_params.merge({amount: '9000', partial_auth_ind: 'Y', account_num: '4444445555555559'}))
       result = gateway.post(body)
       binding.pry
     end
 
     it 'tests partial auth visa 26 6' do
       # skip "successfully ran"
-      body = gateway.auth_and_capture(visa_params.merge({amount: '9500', partial_auth_ind: 'Y', account_number: '4444444444444455'}))
+      body = gateway.auth_and_capture(visa_params.merge({amount: '9500', partial_auth_ind: 'Y', account_num: '4444444444444455'}))
       result = gateway.post(body)
       binding.pry
     end
@@ -158,7 +158,7 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     it 'tests created profile second mastercard with new account 5.1 A7' do
       # skip "successfully ran"
       tmp = second_master_card_params.merge({amount: '10500'})
-      tmp[:account_number] = '2321000000000008'
+      tmp[:account_num] = '2321000000000008'
       body = gateway.auth_and_capture(tmp)
       result = gateway.post(body)
       binding.pry
@@ -196,7 +196,7 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     it 'tests auth with capture negative mastercard second with different card number' do
       skip "successfully ran"
       tmp = second_master_card_params.merge({amount: '40100'})
-      tmp[:account_number] = '2221000000000009'
+      tmp[:account_num] = '2221000000000009'
       body = gateway.auth_and_capture(tmp)
       result = gateway.post(body)
       binding.pry

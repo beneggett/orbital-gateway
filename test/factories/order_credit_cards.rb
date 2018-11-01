@@ -11,7 +11,7 @@ module OrderCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:       '0422',
-      account_number:        '341134113411347',
+      account_num:        '341134113411347',
       card_brand:            'AX'
     }
   end
@@ -28,7 +28,7 @@ module OrderCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:       '0419',
-      account_number:        '4112344112344113',
+      account_num:        '4112344112344113',
       card_brand:            'VI'
     }
   end
@@ -45,7 +45,7 @@ module OrderCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:       '0420',
-      account_number:    '6559906559906557',
+      account_num:    '6559906559906557',
       card_brand:            'DI'
     }
   end
@@ -62,7 +62,7 @@ module OrderCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:            '0420',
-      account_number:         '3528000000000007',
+      account_num:         '3528000000000007',
       card_brand:            'JC'
     }
   end
@@ -79,7 +79,7 @@ module OrderCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:            '0821',
-      account_number:         '4559961111111118',
+      account_num:         '4559961111111118',
       card_brand:            'CHASENET'
     }
   end
@@ -96,7 +96,7 @@ module OrderCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:            '0221',
-      account_number:         '5112345112345114',
+      account_num:         '5112345112345114',
       card_brand:            'MC'
     }
   end
@@ -113,7 +113,7 @@ module OrderCreditCards
       avs_phone:             Faker::Number.number(10),
       order_id:              SecureRandom.hex(8),
       expiration_date:            '0919',
-      account_number:         '2421000000000007',
+      account_num:         '2421000000000007',
       card_brand:            'MC'
     }
   end
