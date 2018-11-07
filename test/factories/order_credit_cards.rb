@@ -117,4 +117,42 @@ module OrderCreditCards
       card_brand:            'MC'
     }
   end
+
+  def visa_customer
+    {
+      cc_account_num: "XXXXXXXXXXXX4113",
+      cc_expire_date: "0419",
+      customer_account_type: "CC",
+      customer_address_one: "1 NORTHEASTERN BLVD",
+      customer_address_two: "",
+      customer_bin: "000001",
+      customer_city: "BEDFORD",
+      customer_country_code: "US",
+      customer_email: "tracy@gerhold.info",
+      customer_merchant_id: "351154",
+      customer_name: "HERMAN QUITZON",
+      customer_phone: "1854558458",
+      customer_profile_action: "CREATE",
+      customer_profile_message: "Profile Request Processed",
+      customer_profile_order_override_ind: "NO",
+      customer_ref_num: "5DF2BCA237A73A9A",
+      customer_state: "NH",
+      customer_zip: "03109-1234",
+      ecp_account_dda: "",
+      ecp_account_rt: "",
+      ecp_account_type: "",
+      ecp_bank_pmt_dlv: "",
+      mit_msg_type: "",
+      mit_submitted_transaction_id: "",
+      nokogiri: nil,
+      order_default_amount: "0",
+      order_default_description: nil,
+      profile_proc_status: "0",
+      request_xml: nil,
+      resp_time: "",
+      status: "A",
+      switch_solo_start_date: "",
+      swith_solo_issue_num: ""
+    }
+  end
 end

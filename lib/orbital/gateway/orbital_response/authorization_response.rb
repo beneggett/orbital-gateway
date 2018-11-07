@@ -35,7 +35,7 @@ module Orbital
         :country_fraud_filter_status,
         :iso_country_code
 
-      def initialize(response_xml)
+      def initialize(response_xml, request_xml)
         super
         @message_type = nokogiri.at_css("Response MessageType")&.text
         @merchant_id = nokogiri.at_css("Response MerchantID")&.text
@@ -76,6 +76,7 @@ module Orbital
       end
 
       def success?
+        resp_code == '00'
       end
     end
   end

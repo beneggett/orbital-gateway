@@ -6,28 +6,28 @@ module Orbital
           gateway = new
           xml_data = gateway.create_profile(parameters)
           response = gateway.post(xml_data)
-          OrbitalResponse::ProfileResponse.new(response)
+          OrbitalResponse::ProfileResponse.new(response, xml_data)
         end
 
         def update_profile(parameters)
           gateway = new
           xml_data = gateway.update_profile(parameters)
           response = gateway.post(xml_data)
-          OrbitalResponse::ProfileResponse.new(response)
+          OrbitalResponse::ProfileResponse.new(response, xml_data)
         end
 
         def delete_profile(parameters)
           gateway = new
           xml_data = gateway.delete_profile(parameters)
           response = gateway.post(xml_data)
-          OrbitalResponse::ProfileResponse.new(response)
+          OrbitalResponse::ProfileResponse.new(response, xml_data)
         end
 
         def retrieve_profile(parameters)
           gateway = new
           xml_data = gateway.retrieve_profile(parameters)
           response = gateway.post(xml_data)
-          OrbitalResponse::ProfileResponse.new(response)
+          OrbitalResponse::ProfileResponse.new(response, xml_data)
         end
       end
 
@@ -62,7 +62,7 @@ module Orbital
 
       def add_bin_merchant_and_terminal(xml)
         xml.tag! :CustomerBin, bin
-        xml.tag! :CustomerMerchantID, ::Orbital::Gateway::Api::ORBITAL_MERCHANT_ID
+        xml.tag! :CustomerMerchantID, orbital_merchant_id
         # xml.tag! :TerminalID, "parameters[:terminal_id] || '001'"
       end
 

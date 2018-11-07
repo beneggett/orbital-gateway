@@ -6,27 +6,34 @@ module Orbital
           gateway = new
           xml_data = gateway.void(parameters)
           response = gateway.post(xml_data)
-          OrbitalResponse::AuthorizationResponse.new(response)
+          OrbitalResponse::AuthorizationResponse.new(response, xml_data)
+        end
+
+        def refund(tx_ref_num:, account_num: nil, order_id: SecureRandom.hex(8), tx_ref_idx: nil, card_brand: nil, amount: nil)
+          gateway = new
+          xml_data = gateway.refund({tx_ref_num: tx_ref_num, account_num: account_num, order_id: order_id, tx_ref_idx: nil, card_brand: card_brand, amount: amount})
+          response = gateway.post(xml_data)
+          OrbitalResponse::AuthorizationResponse.new(response, xml_data)
         end
 
         def auth_and_capture(parameters, retry_trace=nil)
           gateway = new
           xml_data = gateway.auth_and_capture(parameters)
           response = gateway.post(xml_data, retry_trace || rand(9999999999999999))
-          OrbitalResponse::AuthorizationResponse.new(response)
+          OrbitalResponse::AuthorizationResponse.new(response, xml_data)
         end
 
         def auth_only(parameters)
           gateway = new
           xml_data = gateway.auth_only(parameters)
           response = gateway.post(xml_data)
-          OrbitalResponse::AuthorizationResponse.new(response)
+          OrbitalResponse::AuthorizationResponse.new(response, xml_data)
         end
       end
 
       def add_bin_merchant_and_terminal(xml)
         xml.tag! :BIN, bin
-        xml.tag! :MerchantID, ::Orbital::Gateway::Api::ORBITAL_MERCHANT_ID
+        xml.tag! :MerchantID, orbital_merchant_id
         xml.tag! :TerminalID, '001'
       end
 
@@ -96,9 +103,22 @@ module Orbital
         xml.tag! :CustomerRefNum,              parameters[:customer_ref_num]
         xml.tag! :OrderID,            parameters[:order_id]
         xml.tag! :Amount,             parameters[:amount]
+        xml.tag!(:TxRefNum,                   parameters[:tx_ref_num]) if parameters[:tx_ref_num]
         xml.tag!(:PartialAuthInd,     parameters[:partial_auth_ind]) if parameters[:partial_auth_ind]
         # xml.tag!(:DPANInd,            parameters[:dpan_ind]) if parameters[:dpan_ind]
         # add_cryptogram(xml, parameters) if parameters[:dpan_ind].to_s == 'Y'
+        xml.target!
+      end
+
+      def refund_data(xml, parameters)
+        xml.tag! :CurrencyCode,               CURRENCY_CODES.fetch(parameters[:currency_country], '840')
+        xml.tag! :CurrencyExponent,           CURRENCY_EXPONENTS.fetch(parameters[:currency_country], '2')
+        xml.tag! :OrderID,                    parameters[:order_id]
+        xml.tag! :Amount,                     parameters[:amount]
+        xml.tag! :CardBrand,                  parameters[:card_brand]
+        xml.tag! :AccountNum,                 parameters[:account_num]
+        xml.tag! :TxRefNum,                   parameters[:tx_ref_num]
+        xml.tag! :TxRefIdx,                   parameters[:tx_ref_idx]
         xml.target!
       end
 

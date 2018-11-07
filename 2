@@ -230,8 +230,8 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     let(:gateway) { Orbital::Gateway::Api::Authorization.new }
 
     it 'refunds visa class method' do
-      purchase = Orbital::Gateway::Api::Authorization.auth_and_capture({order_id: SecureRandom.hex(8), customer_ref_num: visa_customer[:customer_ref_num], amount: '10000'})
-      resp = Orbital::Gateway::Api::Authorization.refund(tx_ref_num: purchase.tx_ref_num)
+      purchase = Orbital::Gateway::Api::Authorization.auth_and_capture(visa_params.merge({amount: '10000'}))
+      resp = Orbital::Gateway::Api::Authorization.refund(tx_ref_num: purchase.tx_ref_num, account_num: purchase.account_num)
       binding.pry
     end
 

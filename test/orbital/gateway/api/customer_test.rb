@@ -74,9 +74,9 @@ class Orbital::Gateway::Api::CustomerTest < Minitest::Test
     end
 
     it 'updates the visa profile' do
-      skip "successfully ran"
       profile = Orbital::Gateway::Api::Customer.create_profile(visa_params.merge({order_default_amount: '0'}))
       assert profile.success?
+      binding.pry
       updated_profile = Orbital::Gateway::Api::Customer.update_profile(visa_params.merge({order_default_amount: 0, customer_ref_num: profile.customer_ref_num}))
       assert profile.success?
     end

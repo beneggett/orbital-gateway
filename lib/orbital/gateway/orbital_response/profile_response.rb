@@ -35,7 +35,7 @@ module Orbital
         :mit_msg_type,
         :mit_submitted_transaction_id
 
-      def initialize(response_xml)
+      def initialize(response_xml, request_xml)
         super
         @customer_bin = nokogiri.at_css("Response ProfileResp CustomerBin")&.text
         @customer_merchant_id = nokogiri.at_css("Response ProfileResp CustomerMerchantID")&.text

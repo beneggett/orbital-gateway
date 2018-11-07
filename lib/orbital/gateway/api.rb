@@ -1,12 +1,30 @@
 module Orbital
   module Gateway
     class Api
-      URL_ENDPOINT = ENV.fetch("ORBITAL_GATEWAY_BASE_URL", "https://orbitalvar1.chasepaymentech.com/authorize")
-      API_VERSION = ENV.fetch("ORBITAL_GATEWAY_API_VERSION", "7.4")
-      ORBITAL_MERCHANT_ID = ENV.fetch("ORBITAL_MERCHANT_ID", "not-configured")
-      ORBITAL_CONNECTION_ID = ENV.fetch("ORBITAL_CONNECTION_ID", "not-configured")
-      ORBITAL_CONNECTION_PASSWORD = ENV.fetch("ORBITAL_CONNECTION_PASSWORD", "not-configured")
-      BIN = ENV.fetch("ORBITAL_BIN", "stratus")
+      def url_endpoint
+        ENV.fetch("ORBITAL_GATEWAY_BASE_URL", "https://orbitalvar1.chasepaymentech.com/authorize")
+      end
+
+      def api_version
+        ENV.fetch("ORBITAL_GATEWAY_API_VERSION", "7.4")
+      end
+
+      def orbital_merchant_id
+        ENV.fetch("ORBITAL_MERCHANT_ID", "not-configured")
+      end
+
+      def orbital_connection_id
+        ENV.fetch("ORBITAL_CONNECTION_ID", "not-configured")
+      end
+
+      def orbital_connection_password
+        ENV.fetch("ORBITAL_CONNECTION_PASSWORD", "not-configured")
+      end
+
+      def set_bin
+        ENV.fetch("ORBITAL_BIN", "stratus")
+      end
+
       include HTTParty
 
       def initialize(options = {})
@@ -15,13 +33,13 @@ module Orbital
       end
 
       # def get(options={})
-      #   response = self.class.get(URL_ENDPOINT, query: options, timeout: 30, headers: headers)
+      #   response = self.class.get(url_endpoint, query: options, timeout: 30, headers: headers)
       #   # api_type = options[:type] || options[:report_type]
       #   # handle_response(response, api_type)
       # end
 
       def post(body, trace_number=nil)
-        response = self.class.post(URL_ENDPOINT, body: body, timeout: 30, headers: modify_headers(body.size.to_s, trace_number))
+        response = self.class.post(url_endpoint, body: body, timeout: 30, headers: modify_headers(body.size.to_s, trace_number))
         # api_type = options[:type] || options[:customer_vault]
         # handle_response(response, api_type)
       end
@@ -32,14 +50,14 @@ module Orbital
         # headers["Content-Length"] = size
         head = headers
         head.merge!('Trace-Number' => trace_number.to_s,
-                       'Merchant-Id'  => ORBITAL_MERCHANT_ID) if trace_number
+                       'Merchant-Id'  => orbital_merchant_id) if trace_number
         head
       end
 
       def headers
         {
           'MIME-Version' => '1.1',
-          'Content-Type' => "application/PTI#{API_VERSION.gsub(/\./, '')}",
+          'Content-Type' => "application/PTI#{api_version.gsub(/\./, '')}",
           'Content-Transfer-Encoding' => 'text',
           'Request-Number' => '1',
           'Document-Type' => 'Request',
@@ -52,7 +70,7 @@ module Orbital
           'stratus' => '000001',
           'pns'     => '000002'
         }
-        available_bins[BIN]
+        available_bins[set_bin]
       end
 
       # Will need to add these in to the headers
@@ -84,13 +102,13 @@ module Orbital
       end
 
       def add_xml_credentials(xml)
-        xml.tag! :OrbitalConnectionUsername, ORBITAL_CONNECTION_ID
-        xml.tag! :OrbitalConnectionPassword, ORBITAL_CONNECTION_PASSWORD
+        xml.tag! :OrbitalConnectionUsername, orbital_connection_id
+        xml.tag! :OrbitalConnectionPassword, orbital_connection_password
       end
 
       def add_bin_merchant_and_terminal(xml)
         xml.tag! :BIN, bin
-        xml.tag! :MerchantID, ORBITAL_MERCHANT_ID
+        xml.tag! :MerchantID, orbital_merchant_id
         xml.tag! :TerminalID, '001'
       end
 
