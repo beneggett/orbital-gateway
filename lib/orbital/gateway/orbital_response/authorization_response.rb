@@ -76,7 +76,7 @@ module Orbital
       end
 
       def success?
-        resp_code == '00'
+        resp_code == '00' || approval_status.to_s == '1'
       end
     end
   end
