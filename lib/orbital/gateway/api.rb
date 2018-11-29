@@ -28,26 +28,15 @@ module Orbital
       include HTTParty
 
       def initialize(options = {})
-        # @username = options[:username] || ENV["PPG_USERNAME"]
-        # @password = options[:password] || ENV["PPG_PASSWORD"]
       end
-
-      # def get(options={})
-      #   response = self.class.get(url_endpoint, query: options, timeout: 30, headers: headers)
-      #   # api_type = options[:type] || options[:report_type]
-      #   # handle_response(response, api_type)
-      # end
 
       def post(body, trace_number=nil)
         response = self.class.post(url_endpoint, body: body, timeout: 30, headers: modify_headers(body.size.to_s, trace_number))
-        # api_type = options[:type] || options[:customer_vault]
-        # handle_response(response, api_type)
       end
 
       private
 
       def modify_headers(size, trace_number=nil)
-        # headers["Content-Length"] = size
         head = headers
         head.merge!('Trace-Number' => trace_number.to_s,
                        'Merchant-Id'  => orbital_merchant_id) if trace_number
@@ -71,18 +60,6 @@ module Orbital
           'pns'     => '000002'
         }
         available_bins[set_bin]
-      end
-
-      # Will need to add these in to the headers
-    #   headers = POST_HEADERS.merge('Content-length' => order.size.to_s)
-    #   headers.merge!( 'Trace-number' => trace_number.to_s,
-    #                   'Merchant-Id' => @options[:merchant_id] ) if @options[:retry_logic] && trace_number
-    #   request = lambda{|url| parse(ssl_post(url, order, headers))}
-
-      def credentials
-        # ENV.fetch("ORBITAL_CONNECTION_ID", "not-implemented"]
-        # ENV.fetch("ORBITAL_CONNECTION_PASSWORD", "not-implemented"]
-        # {username: username, password: password }
       end
 
       def base_request

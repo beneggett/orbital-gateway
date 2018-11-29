@@ -99,14 +99,11 @@ module Orbital
         xml.tag! :AVScity,                    parameters[:avs_city]
         xml.tag! :AVSstate,                   parameters[:avs_state]
         xml.tag! :AVSphoneNum,                parameters[:avs_phone]
-        # xml.tag! :CustomerProfileFromOrderInd, parameters[:customer_profile_from_order_ind]
         xml.tag! :CustomerRefNum,              parameters[:customer_ref_num]
         xml.tag! :OrderID,            parameters[:order_id]
         xml.tag! :Amount,             parameters[:amount]
         xml.tag!(:TxRefNum,                   parameters[:tx_ref_num]) if parameters[:tx_ref_num]
         xml.tag!(:PartialAuthInd,     parameters[:partial_auth_ind]) if parameters[:partial_auth_ind]
-        # xml.tag!(:DPANInd,            parameters[:dpan_ind]) if parameters[:dpan_ind]
-        # add_cryptogram(xml, parameters) if parameters[:dpan_ind].to_s == 'Y'
         xml.target!
       end
 

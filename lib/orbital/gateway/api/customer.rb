@@ -63,7 +63,6 @@ module Orbital
       def add_bin_merchant_and_terminal(xml)
         xml.tag! :CustomerBin, bin
         xml.tag! :CustomerMerchantID, orbital_merchant_id
-        # xml.tag! :TerminalID, "parameters[:terminal_id] || '001'"
       end
 
       def add_data(xml, parameters)
