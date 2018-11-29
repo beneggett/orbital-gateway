@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest", "~> 5.0"
+  spec.add_development_dependency "faker"
   # spec.add_development_dependency "vcr"
   # spec.add_development_dependency "webmock"
   spec.add_development_dependency "pry"
@@ -44,5 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "dotenv"
   spec.add_dependency "httparty", ">= 0.14.0"
-  # spec.add_dependency "activesupport"
+  spec.add_dependency "activesupport"
+  spec.add_dependency "nokogiri"
+  spec.add_dependency "builder"
 end
