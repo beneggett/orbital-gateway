@@ -11,35 +11,30 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
       # skip "TODO Failing.  Need to look into why"
       body = gateway.auth_only(amex_params.merge({amount: '1'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile visa 5.1 A8' do
       skip "successfully ran"
       body = gateway.auth_only(visa_params.merge({amount: '0'}))
       result = gateway.post(body)
-      binding.pry
     end
   
     it 'tests created profile discover 5.1 A3' do
       skip "successfully ran"
       body = gateway.auth_only(discover_params.merge({amount: '1'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile jcb 5.1 A5' do
       skip "successfully ran"
       body = gateway.auth_only(jcb_params.merge({amount: '1'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile first mastercard 5.1 A6' do
       skip "successfully ran"
       body = gateway.auth_only(first_master_card_params.merge({amount: '0'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile first mastercard 5.1 A7' do
@@ -48,7 +43,6 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
       tmp[:account_num] = '2221000000000009'
       body = gateway.auth_only(tmp)
       result = gateway.post(body)
-      binding.pry
     end
 
   end
@@ -61,98 +55,84 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
       # skip "TODO Failing.  Need to look into why"
       body = gateway.auth_and_capture(amex_params.merge({amount: '10000'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile discover 5.1 A3' do
       # skip "successfully ran"
       body = gateway.auth_and_capture(discover_params.merge({amount: '1000'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests partial auth discover' do
       skip "successfully ran"
       body = gateway.auth_and_capture(discover_params.merge({amount: '7500', partial_auth_ind: 'Y', account_num: '6011000994116667'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests partial auth mastercard 26 3' do
       skip "successfully ran"
       body = gateway.auth_and_capture(second_master_card_params.merge({amount: '8000', partial_auth_ind: 'Y', account_num: '5555555555555565'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests partial auth mastercard 26 4' do
       # skip "successfully ran"
       body = gateway.auth_and_capture(second_master_card_params.merge({amount: '8500', partial_auth_ind: 'Y', account_num: '5555556666666663'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests partial auth visa 26 5' do
       skip "successfully ran"
       body = gateway.auth_and_capture(visa_params.merge({amount: '9000', partial_auth_ind: 'Y', account_num: '4444445555555559'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests partial auth visa 26 6' do
       # skip "successfully ran"
       body = gateway.auth_and_capture(visa_params.merge({amount: '9500', partial_auth_ind: 'Y', account_num: '4444444444444455'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile discover retry' do
       skip "successfully ran"
       body = gateway.auth_and_capture(discover_params.merge({amount: '11100', order_id: 'RetryLogicTest1'}))
       result = gateway.post(body, '9999999999999999')
-      binding.pry
     end
 
     it 'tests created profile discover second retry test' do
       skip "successfully ran"
       body = gateway.auth_and_capture(discover_params.merge({amount: '11100', order_id: 'RetryLogicTest2'}))
       result = gateway.post(body, '9999999999999999')
-      binding.pry
     end
 
     it 'tests created profile jcb 5.1 A5' do
       skip "successfully ran"
       body = gateway.auth_and_capture(jcb_params.merge({amount: '10000'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile visa 5.1 A8' do
       # skip "successfully ran"
       body = gateway.auth_and_capture(visa_params.merge({amount: '10500'}))
       result = gateway.post(body)
-      binding.pry
     end
   
     it 'tests created profile first mastercard 5.1 A6' do
       skip "successfully ran"
       body = gateway.auth_and_capture(first_master_card_params.merge({amount: '10000'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests retry first master card' do
       skip "successfully ran"
       body = gateway.auth_and_capture(first_master_card_params.merge({amount: '11100', order_id: 'RetryLogicTest1'}))
       result = gateway.post(body, '9999999999999998')
-      binding.pry
     end
 
     it 'tests retry first master card' do
       skip "successfully ran"
       body = gateway.auth_and_capture(first_master_card_params.merge({amount: '11100', order_id: 'RetryLogicTest2'}))
       result = gateway.post(body, '9999999999999998')
-      binding.pry
     end
 
     it 'tests created profile second mastercard with new account 5.1 A7' do
@@ -161,7 +141,6 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
       tmp[:account_num] = '2321000000000008'
       body = gateway.auth_and_capture(tmp)
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests created profile second mastercard 5.1 A7' do
@@ -169,28 +148,24 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
       tmp = second_master_card_params.merge({amount: '10000'})
       body = gateway.auth_and_capture(tmp)
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests auth negative discover' do
       skip "successfully ran"
       body = gateway.auth_and_capture(discover_params.merge({amount: '30400'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests auth with capture negative jcb' do
       skip "successfully ran"
       body = gateway.auth_and_capture(jcb_params.merge({amount: '60500'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests auth with capture negative mastercard with suite' do
       skip "successfully ran"
       body = gateway.auth_and_capture(first_master_card_params.merge({amount: '40200'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests auth with capture negative mastercard second with different card number' do
@@ -199,28 +174,24 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
       tmp[:account_num] = '2221000000000009'
       body = gateway.auth_and_capture(tmp)
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests auth with capture negative visa' do
       # skip "successfully ran"
       body = gateway.auth_and_capture(visa_params.merge({amount: '99900'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests auth with capture negative amex' do
       # skip "successfully ran"
       body = gateway.auth_and_capture(amex_params.merge({amount: '53000'}))
       result = gateway.post(body)
-      binding.pry
     end
 
     it 'tests auth with capture failover amex' do
       # skip "successfully ran"
       body = gateway.auth_and_capture(amex_params.merge({amount: '10500'}))
       result = gateway.post(body)
-      binding.pry
     end
 
   end
@@ -232,7 +203,6 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     it 'refunds visa class method' do
       purchase = Orbital::Gateway::Api::Authorization.auth_and_capture(visa_params.merge({amount: '10000'}))
       resp = Orbital::Gateway::Api::Authorization.refund(tx_ref_num: purchase.tx_ref_num, account_num: purchase.account_num)
-      binding.pry
     end
 
     it 'refund amex' do
@@ -271,19 +241,15 @@ class Orbital::Gateway::Api::AuthorizationTest < Minitest::Test
     it 'voids second mastercard' do
       order_id = SecureRandom.hex(8)
       purchase = Orbital::Gateway::Api::Authorization.auth_and_capture(visa_params.merge({amount: '10000', order_id: order_id}))
-      binding.pry
       tmp = second_master_card_params.merge({tx_ref_num: purchase.tx_ref_num, order_id: order_id, tx_ref_idx: purchase.tx_ref_idx})
       result = Orbital::Gateway::Api::Authorization.void(tmp)
-      binding.pry
     end
 
     it 'voids amex' do
       order_id = 'AMEXvoid51G1'
       purchase = Orbital::Gateway::Api::Authorization.auth_and_capture(amex_params.merge({amount: '10000', order_id: order_id}))
-      binding.pry
       tmp = second_master_card_params.merge({tx_ref_num: purchase.tx_ref_num, order_id: order_id, tx_ref_idx: purchase.tx_ref_idx})
       result = Orbital::Gateway::Api::Authorization.void(tmp)
-      binding.pry
     end
   end
 end

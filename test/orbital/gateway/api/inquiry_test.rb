@@ -9,7 +9,6 @@ class Orbital::Gateway::Api::CustomerTest < Minitest::Test
       retry_trace = rand(99999999999999)
       result = Orbital::Gateway::Api::Authorization.auth_and_capture(discover_params.merge({amount: '1000'}), retry_trace)
       inquiry_response = Orbital::Gateway::Api::Inquiry.find_request(retry_trace)
-      binding.pry
     end
   end
 end
